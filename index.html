@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test Frontend</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #status { padding: 10px; margin-top: 15px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>CORS Middleware Check</h1>
+    <p>This page attempts to fetch data from your FastAPI backend.</p>
+    <button onclick="testCORS()">Test Connection</button>
+    
+    <h3>Result:</h3>
+    <div id="status">Status: Waiting for test...</div>
+
+    <script>
+        async function testCORS() {
+            const statusDiv = document.getElementById('status');
+            const backendUrl = 'http://127.0.0.1:8000/'; // Replace with your FastAPI server URL
+            
+            statusDiv.textContent = 'Status: Sending request to backend...';
+            statusDiv.className = '';
+
+            try {
+                // Fetch API handles the CORS request
+                const response = await fetch(backendUrl, {
+                    method: 'GET',
+                    credentials: 'include' // Important for testing allow_credentials=True
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.textContent = 'Status: Success! Received data: ' + JSON.stringify(data);
+                    statusDiv.className = 'success';
+                } else {
+                    statusDiv.textContent = `Status: Request failed with status ${response.status}. Check browser console for CORS errors.`;
+                    statusDiv.className = 'error';
+                }
+            } catch (error) {
+                // This block catches network errors or complete CORS failures (preflight errors)
+                console.error('CORS Error:', error);
+                statusDiv.textContent = 'Status: Failed to connect. Check browser console for CORS errors. Ensure your FastAPI server is running and the origins are correct.';
+                statusDiv.className = 'error';
+            }
+        }
+    </script>
+</body>
+</html>
