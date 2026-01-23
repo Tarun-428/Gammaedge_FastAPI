@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from fastapi import FastAPI,Depends
 from pydantic import BaseModel
 
-DATABASE_URL = "postgresql://postgres:tarun@localhost:5432/gammaedge_db"
+DATABASE_URL = "postgresql://postgres:tarun@localhost:5432/gamma_db"
 
 engine = create_engine(DATABASE_URL)
 
