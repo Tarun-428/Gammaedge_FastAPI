@@ -4,4 +4,12 @@ __pycache__/
 venv/
 gammaTest
 test.html
+.idea/
+.ipynb_checkpoints/
+jupter_env/
+tarun/
+testing/
+testingg/
+.env 
+app.log
 
