@@ -1,9 +1,15 @@
 {{ config(materialized='view') }}
 
-SELECT
-    VARIANT_COL:customer_id::string as customer_id,
-    VARIANT_COL:created_at::date as signup_date,
-    VARIANT_COL:country::string as country
-FROM {{ source('raw', 'customers') }}
+WITH source AS (
+    SELECT * FROM {{ source('raw', 'customers') }}
+),
 
-WHERE customer_id IS NOT NULL
+cleaned AS (
+    SELECT
+        VARIANT_COL:customer_id::VARCHAR AS customer_id,
+        VARIANT_COL:country::VARCHAR     AS country,
+        VARIANT_COL:signup_date::DATE    AS signup_date
+    FROM source
+)
+
+SELECT * FROM cleaned
