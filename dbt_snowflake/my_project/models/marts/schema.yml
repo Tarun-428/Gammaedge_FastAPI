@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Fact table for orders with customer info"
+
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['pending', 'delivered', 'cancelled']
+
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
