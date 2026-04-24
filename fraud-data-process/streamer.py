@@ -2,7 +2,7 @@ from kafka import KafkaProducer, KafkaConsumer
 import json
 from datetime import datetime, timedelta
 from collections import defaultdict
-
+#old commit
 consumer = KafkaConsumer(
     'orders-topic',
     bootstrap_servers='localhost:9092',
